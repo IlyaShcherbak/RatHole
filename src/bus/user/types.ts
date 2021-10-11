@@ -6,7 +6,5 @@ export type User = {
     username: string,
 }
 
-export type Users = Array<User>
-
 // Contracts
-export type SetUsersContract = CaseReducer<Users, PayloadAction<Users>>;
+export type SetUserContract = CaseReducer<User, PayloadAction<User>>;

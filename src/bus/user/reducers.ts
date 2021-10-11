@@ -1,7 +1,7 @@
 // Types
 import * as types from './types';
 
-export const setUsers: types.SetUsersContract = (...args) => {
+export const setUser: types.SetUserContract = (...args) => {
     const [ , action ] = args;
 
     return action.payload;

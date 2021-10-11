@@ -10,31 +10,26 @@ import { ErrorBoundary } from '../../components';
 // Styles
 import { Container } from './styles';
 
-// Hooks
-import { useLocalStorage } from '../../../tools/hooks';
-
 // Redux
-import { useTogglersRedux } from '../../../bus/client/togglers';
+import { useUser } from '../../../bus/user';
+
+//Elements
+import { Spinner } from '../../elements';
 
 const Main: FC = () => {
-    const [ , setUserId ] = useLocalStorage('userId', '');
-    const { setTogglerAction } = useTogglersRedux();
+    const { user, resetUser, isFetching } = useUser();
 
-    const onLogoutClick = () => {
-        setUserId('');
-        setTogglerAction({
-            type:  'isLoggedIn',
-            value: false,
-        });
-    };
+    if (isFetching) {
+        return <Spinner />;
+    }
 
     return (
         <Container>
-            <h1> Welcome to the rat hole!! </h1>
+            <h1> Hi {user.username}! Welcome to the rat hole!! </h1>
             <Button
                 color = 'error'
                 variant = 'outlined'
-                onClick = { onLogoutClick }>
+                onClick = { resetUser }>
                 GET OUT OF HOLE
             </Button>
         </Container>

@@ -16,7 +16,6 @@ export const Routes: FC = () => {
 
     return (
         <Suspense fallback = { <Spinner /> }>
-            {/* <Private /> */}
             {
                 isLoggedIn
                     ? <Private />

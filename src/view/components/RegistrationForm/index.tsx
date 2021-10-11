@@ -13,14 +13,10 @@ import Button from '@mui/material/Button';
 import { getRandomString } from '../../../tools/utils';
 
 // Hooks
-import { useForm, useLocalStorage } from '../../../tools/hooks';
-
-// Constants
-import { API_URL } from '../../../init/constants';
-import { User } from '../../../bus/users/types';
+import { useForm } from '../../../tools/hooks';
 
 // Redux
-import { useTogglersRedux } from '../../../bus/client/togglers';
+import { useUser } from '../../../bus/user';
 
 type PropTypes = {}
 
@@ -37,28 +33,9 @@ export const RegistrationForm: FC<PropTypes> = () => {
         registrationState,
         setRegistrationState,
     ] = useForm<RegistrationStateType>(registrationInitialState);
-    const [ , setUserId ] = useLocalStorage('userId', '');
-    const { setTogglerAction } = useTogglersRedux();
+    const { createUser } = useUser();
 
-    const onRegistrationClick = async () => {
-        const response = await fetch(`${API_URL}/users/register`, {
-            method:  'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(registrationState),
-        });
-        const { _id } = await response.json() as User;
-
-        if (_id) {
-            setUserId(_id);
-            setTogglerAction({
-                type:  'isLoggedIn',
-                value: true,
-            });
-        }
-        console.log({ registrationState, _id });
-    };
+    const onRegistrationClick = () => createUser(registrationState.username);
 
     return (
         <CustomForm>

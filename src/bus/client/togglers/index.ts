@@ -10,7 +10,7 @@ const initialState = {
     isLoggedIn:         false,
     isMessagesFetching: false,
     isTodosFetching:    false,
-    isUsersFetching:    false,
+    isUserFetching:     false,
 };
 
 // Types
@@ -44,6 +44,4 @@ export const useTogglersRedux = () => {
     };
 };
 
-// Used ./src/tools/helpers/makeRequest
 export const togglerCreatorAction = toggrersActions.togglerCreatorAction;
-
