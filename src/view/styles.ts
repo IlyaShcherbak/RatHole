@@ -6,4 +6,5 @@ export const AppContainer = styled.div`
     width: 100vw;
     display: flex;
     flex-direction: column;
+    background: linear-gradient(rgb(233, 248, 214), rgb(242, 210, 193));
 `;

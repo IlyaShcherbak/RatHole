@@ -2,8 +2,9 @@
 import { all } from 'redux-saga/effects';
 
 // Tools
-import { watchMessages } from '../../bus/messages/saga';
+import { watchUsers } from '../../bus/users/saga';
+
 
 export function* rootSaga() {
-    yield all([ watchMessages() ]);
+    yield all([ watchUsers() ]);
 }

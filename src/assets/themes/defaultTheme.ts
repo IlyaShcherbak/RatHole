@@ -7,7 +7,7 @@ export const defaultTheme = {
     },
     input: {
         primary:   '#fff',
-        secondary: '#FFEE58',
+        secondary: 'rgb(255 255 255 / 10%)',
         error:     'red',
     },
     app: {
