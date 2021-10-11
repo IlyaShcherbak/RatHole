@@ -1,8 +1,8 @@
 // Core
-import React, { FC, useRef } from 'react';
+import React, { FC } from 'react';
 
-// Hooks
-import { useOnScreen } from '../../../tools/hooks';
+// MUI
+import Button from '@mui/material/Button';
 
 // Components
 import { ErrorBoundary } from '../../components';
@@ -10,15 +10,33 @@ import { ErrorBoundary } from '../../components';
 // Styles
 import { Container } from './styles';
 
+// Hooks
+import { useLocalStorage } from '../../../tools/hooks';
+
+// Redux
+import { useTogglersRedux } from '../../../bus/client/togglers';
+
 const Main: FC = () => {
-    const divRef = useRef(null);
-    const visible = useOnScreen(divRef, '0px');
+    const [ , setUserId ] = useLocalStorage('userId', '');
+    const { setTogglerAction } = useTogglersRedux();
+
+    const onLogoutClick = () => {
+        setUserId('');
+        setTogglerAction({
+            type:  'isLoggedIn',
+            value: false,
+        });
+    };
 
     return (
         <Container>
-            <div ref = { divRef }>
-                {visible ? 'visible' : 'hide'}
-            </div>
+            <h1> Welcome to the rat hole!! </h1>
+            <Button
+                color = 'error'
+                variant = 'outlined'
+                onClick = { onLogoutClick }>
+                GET OUT OF HOLE
+            </Button>
         </Container>
     );
 };

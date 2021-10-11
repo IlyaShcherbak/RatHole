@@ -2,7 +2,7 @@
 import { CaseReducer, PayloadAction } from '@reduxjs/toolkit';
 
 export type User = {
-    id: string,
+    _id: string,
     username: string,
 }
 

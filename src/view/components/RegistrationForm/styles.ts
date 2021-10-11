@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import TextField from '@mui/material/TextField';
 
 export const CustomForm = styled.form`
+    grid-column: 2 / 3;
     display: flex;
     flex-direction: column;
     padding: 10px;

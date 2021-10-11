@@ -15,9 +15,7 @@ export const Register: FC = () => {
 
     return (
         <Container>
-            <p></p>
             <RegistrationForm />
-            <p></p>
         </Container>
     );
 };
