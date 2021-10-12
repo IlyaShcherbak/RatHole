@@ -1,10 +1,10 @@
 // Core
-// import { all } from 'redux-saga/effects';
+import { all } from 'redux-saga/effects';
 
 // Tools
-// import { watchUsers } from '../../bus/users/saga';
+import { watchUser } from '../../bus/user/saga';
 
 
 export function* rootSaga() {
-    // yield all([ watchUsers() ]);
+    yield all([ watchUser() ]);
 }

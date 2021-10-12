@@ -8,21 +8,15 @@ import { messagesActions } from '../../slice';
 import * as API from '../api';
 
 // Tools
-import { IControlledError, makeRequest } from '../../../../tools/utils';
+import { makeRequest } from '../../../../tools/utils';
 
 export function* fetchMessages() {
-    const combineResult: IControlledError & MessagesState = yield makeRequest<MessagesState>({
-        fetcher:          API.fetchMessages,
-        togglerType:      'isMessagesFetching',
-        succesAction:     messagesActions.setMessages,
-        isControlledMode: true,
+    const result: MessagesState | null = yield makeRequest<MessagesState>({
+        fetcher:           API.fetchMessages,
+        togglerType:       'isMessagesFetching',
+        succesAction:      messagesActions.setMessages,
+        successSideEffect: (result) => {
+            console.log('successSideEffect result', result);
+        },
     });
-
-    if (combineResult?.name === 'ControlledError') {
-        console.log(combineResult.errorId);
-    }
-
-    // if (combineResult.length) {
-    //     console.log(combineResult);
-    // }
 }

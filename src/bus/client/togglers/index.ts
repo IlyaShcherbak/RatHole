@@ -11,6 +11,7 @@ const initialState = {
     isMessagesFetching: false,
     isTodosFetching:    false,
     isUserFetching:     false,
+    isUserRegister:     false,
 };
 
 // Types

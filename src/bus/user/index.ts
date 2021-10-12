@@ -1,80 +1,67 @@
 // Core
 import { useDispatch } from 'react-redux';
+import localStorage from 'store';
 
 // Redux
 import { useTogglersRedux } from '../client/togglers';
 
+// Saga actions
+import * as actions from './saga/actions';
+
 // Hooks
-import { useLocalStorage, useSelector } from '../../tools/hooks';
+import { useSelector } from '../../tools/hooks';
 
-// Constants
-import { API_URL } from '../../init/constants';
-
-//Types
-import { User } from './types';
+// Types
+import { NameUser } from './types';
 
 // Bus
 import { noUser, userActions } from './slice';
 
+
+// export const useUser = () => {
+//     const dispatch = useDispatch();
+
+//     return {
+//         refreshUser: async () => {
+//             const localstorageId = await localStorage.get('userId');
+//             localstorageId && dispatch(actions.refreshUserActionAsync(localstorageId));
+//         },
+//         registerUser: (username: Username) => dispatch(actions.registerUserActionAsync(username)),
+//     };
+// };
+
 export const useUser = () => {
     const dispatch = useDispatch();
     const { setTogglerAction } = useTogglersRedux();
-    const [ userId, setUserId ] = useLocalStorage('userId', '');
+    // const [ userId, setUserId ] = useLocalStorage('userId', '');
+
+    const userId = localStorage.get('userId');
+
     const { user, isUserFetching } = useSelector(
         ({ user, togglers }) => ({ user, isUserFetching: togglers.isUserFetching }),
     );
 
-    const checkUser = async () => {
-        const hasUserId = !!userId;
+    const checkUser = () => {
+        const hasUserId = Boolean(userId);
 
         if (hasUserId) {
-            setTogglerAction({
-                type:  'isUserFetching',
-                value: true,
-            });
-
-            const response = await fetch(`${API_URL}/users/refresh/${userId}`);
-            const user = await response.json() as User;
-
-            setTogglerAction({
-                type:  'isUserFetching',
-                value: false,
-            });
-
             if (user) {
-                dispatch(userActions.setUser(user));
+                // dispatch(userActions.setUser(user));
+                dispatch(actions.refreshUserActionAsync(userId));
             }
-
-            setTogglerAction({
-                type:  'isLoggedIn',
-                value: !!user.username,
-            });
         }
     };
 
-    const createUser = async (username: string) => {
-        const response = await fetch(`${API_URL}/users/register`, {
-            method:  'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ username }),
-        });
-        const user = await response.json() as User;
-
+    const registerUser = (username: NameUser) => {
         if (user) {
-            dispatch(userActions.setUser(user));
-            setUserId(user._id);
-            setTogglerAction({
-                type:  'isLoggedIn',
-                value: true,
-            });
+            localStorage.set('userId', user._id);
+            dispatch(actions.registerUserActionAsync(username));
         }
     };
 
     const resetUser = () => {
         dispatch(userActions.setUser(noUser));
-        setUserId('');
+        localStorage.remove('userId');
         setTogglerAction({
             type:  'isLoggedIn',
             value: false,
@@ -84,7 +71,7 @@ export const useUser = () => {
     return {
         user,
         checkUser,
-        createUser,
+        registerUser,
         resetUser,
         isFetching: isUserFetching,
     };

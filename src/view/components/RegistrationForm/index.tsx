@@ -33,9 +33,10 @@ export const RegistrationForm: FC<PropTypes> = () => {
         registrationState,
         setRegistrationState,
     ] = useForm<RegistrationStateType>(registrationInitialState);
-    const { createUser } = useUser();
 
-    const onRegistrationClick = () => createUser(registrationState.username);
+    const { registerUser } = useUser();
+
+    const onRegistrationClick = () => registerUser(registrationState.username);
 
     return (
         <CustomForm>
