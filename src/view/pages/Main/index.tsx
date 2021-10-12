@@ -2,19 +2,19 @@
 import React, { FC } from 'react';
 
 // MUI
-import Button from '@mui/material/Button';
+// import Button from '@mui/material/Button';
 
 // Components
-import { ErrorBoundary } from '../../components';
-
-// Styles
-import { Container } from './styles';
+import { ErrorBoundary, Header } from '../../components';
 
 // Redux
 import { useUser } from '../../../bus/user';
 
 //Elements
 import { Spinner } from '../../elements';
+
+// Styles
+import { PageContainer, Container } from './styles';
 
 const Main: FC = () => {
     const { user, resetUser, isFetching } = useUser();
@@ -24,15 +24,14 @@ const Main: FC = () => {
     }
 
     return (
-        <Container>
-            <h1> Hi {user.username}! Welcome to the rat hole!! </h1>
-            <Button
-                color = 'error'
-                variant = 'outlined'
-                onClick = { resetUser }>
-                GET OUT OF HOLE
-            </Button>
-        </Container>
+        <PageContainer>
+            <Container>
+                <Header
+                    logOut = { resetUser }
+                    user = { user }
+                />
+            </Container>
+        </PageContainer>
     );
 };
 
