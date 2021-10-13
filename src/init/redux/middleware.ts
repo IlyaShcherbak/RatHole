@@ -8,7 +8,7 @@ const sagaMiddleware = createSagaMiddleware();
 
 const middleware: Middleware[] = [ sagaMiddleware ];
 
-isDev && middleware.push(
+!isDev && middleware.push(  //del ! console.log
     createLogger({
         duration:  true,
         collapsed: true,

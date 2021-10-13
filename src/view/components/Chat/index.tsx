@@ -1,14 +1,5 @@
 // Core
-import React, { FC } from 'react';
-
-// Bus
-import { useMessages } from '../../../bus/messages';
-
-// Hooks
-import { useForm } from '../../../tools/hooks';
-
-//Material Ui
-import TextField from '@mui/material/TextField';
+import React, { FC, ReactElement } from 'react';
 
 // Components
 import { Message } from '../Message';
@@ -18,42 +9,25 @@ import { Spinner } from '../../elements';
 
 // Types
 import { User } from '../../../bus/user/types';
+import { Messages } from '../../../bus/messages/types';
 
 // Styles
-import { Container, ChatBox, MessagesBox, UserInputContainer, StyledButton } from './styles';
+import { Container, ChatBox, MessagesBox } from './styles';
 
 type PropTypes = {
-    currentUser: User
+    currentUser: User,
+    messages: Messages,
+    isChatInitialised: boolean,
+    children?: ReactElement
 }
 
-export type MessageStateType = {
-    messageText: string,
-}
-
-const messageInitialState: MessageStateType = {
-    messageText: '',
-};
-
-export const Chat: FC<PropTypes> = ({ currentUser }) => {
-    const { messages, createMessage, isInitialised } = useMessages();
-    const [
-        messageState,
-        handleChange,
-        ,
-        resetForm,
-    ] = useForm<MessageStateType>(messageInitialState);
-
-    const sendButtonClick = () => {
-        createMessage({ text: messageState.messageText, username: currentUser.username });
-        resetForm();
-    };
-
+export const Chat: FC<PropTypes> = ({ currentUser, messages, isChatInitialised, children }) => {
     return (
         <Container>
             <ChatBox elevation = { 3 }>
                 <MessagesBox>
                     {
-                        isInitialised ? messages.map((message) => (
+                        isChatInitialised ? messages.map((message) => (
                             <Message
                                 isEdited = { message.createdAt !== message.updatedAt }
                                 isOwnMessage = { message.username === currentUser.username }
@@ -65,26 +39,7 @@ export const Chat: FC<PropTypes> = ({ currentUser }) => {
                         )) : <Spinner />
                     }
                 </MessagesBox>
-                <form onSubmit = { (event) => event.preventDefault() }>
-                    <UserInputContainer>
-                        <TextField
-                            fullWidth
-                            label = 'Enter message...'
-                            name = 'messageText'
-                            size = 'small'
-                            value = { messageState.messageText }
-                            onChange = { handleChange }
-                        />
-                        <StyledButton
-                            color = 'primary'
-                            disabled = { !messageState.messageText }
-                            type = 'submit'
-                            variant = 'contained'
-                            onClick = { sendButtonClick }>
-                            Send
-                        </StyledButton>
-                    </UserInputContainer>
-                </form>
+                {children}
             </ChatBox>
         </Container>
     );

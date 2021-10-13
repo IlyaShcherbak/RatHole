@@ -30,18 +30,3 @@ export const MessagesBox = styled(Paper)({
     display:       'flex',
     flexDirection: 'column-reverse',
 });
-
-
-export const UserInputContainer = styled.div`
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin: 0 10px;
-`;
-
-export const StyledButton = styled(Button)`
-    &.MuiButton-root {
-        margin-left: 30px;
-        height: 80%;
-    }
-`;

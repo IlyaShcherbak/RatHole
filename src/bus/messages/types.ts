@@ -9,7 +9,10 @@ export type Message = {
     createdAt: string,
     updatedAt:string,
 };
-export type MessagesState = Array<Message>
+
+export type Messages = Array<Message>
+
+export type MessagesState = Messages;
 
 export type userMessage = {
     username: Message['username']
