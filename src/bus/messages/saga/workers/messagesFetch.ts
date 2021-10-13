@@ -1,3 +1,9 @@
+// Core
+import { put } from 'redux-saga/effects';
+
+// Bus
+import { togglerCreatorAction } from '../../../client/togglers';
+
 // Types
 import { MessagesState } from '../../types';
 
@@ -10,13 +16,16 @@ import * as API from '../api';
 // Tools
 import { makeRequest } from '../../../../tools/utils';
 
-export function* fetchMessages() {
-    const result: MessagesState | null = yield makeRequest<MessagesState>({
+export function* messagesFetch() {
+    yield makeRequest<MessagesState>({
         fetcher:           API.fetchMessages,
         togglerType:       'isMessagesFetching',
         succesAction:      messagesActions.setMessages,
-        successSideEffect: (result) => {
-            console.log('successSideEffect result', result);
+        successSideEffect: function*() {
+            yield put(togglerCreatorAction({
+                type:  'isMessagesInitialised',
+                value: true,
+            }));
         },
     });
 }

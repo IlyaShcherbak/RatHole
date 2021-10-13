@@ -7,13 +7,18 @@ import * as types from './types';
 
 // Workers
 import {
-    fetchMessages,
+    messagesFetch,
+    messageCreate,
 } from './workers';
 
 function* watchFetchMessages(): SagaIterator {
-    yield takeEvery(types.FETCH_MESSAGES_ASYNC, fetchMessages);
+    yield takeEvery(types.FETCH_MESSAGES_ASYNC, messagesFetch);
+}
+
+function* watchCreateMessages(): SagaIterator {
+    yield takeEvery(types.CREATE_MESSAGES_ASYNC, messageCreate);
 }
 
 export function* watchMessages(): SagaIterator {
-    yield all([ call(watchFetchMessages) ]);
+    yield all([ call(watchFetchMessages), call(watchCreateMessages) ]);
 }

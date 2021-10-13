@@ -6,27 +6,32 @@ import { useEffect } from 'react';
 import { useSelector } from '../../tools/hooks';
 
 // Saga actions
-import { fetchMessagesActionAsync } from './saga/actions';
+import * as asyncActions from './saga/actions';
 
 // Types
-// import { MessagesState } from './types';
+import * as types from './types';
 
-// Interfaces
-// import { messagesActions } from './slice';
-
-// Hooks
 export const useMessages = () => {
     const dispatch = useDispatch();
     const selector = useSelector((state) => ({
-        messages: state.messages,
-        loading:  state.togglers.isMessagesFetching,
+        messages:      state.messages,
+        isInitialised: state.togglers.isMessagesInitialised,
     }));
 
     useEffect(() => {
-        dispatch(fetchMessagesActionAsync());
+        setInterval(() => dispatch(asyncActions.fetchMessagesActionAsync()), 1000);
     }, []);
+
+    const getMessages = () => {
+        dispatch(asyncActions.fetchMessagesActionAsync());
+    };
+    const createMessage = (payload: types.userMessage) => {
+        dispatch(asyncActions.createhMessagesActionAsync(payload));
+    };
 
     return {
         ...selector,
+        getMessages,
+        createMessage,
     };
 };

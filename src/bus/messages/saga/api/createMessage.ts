@@ -4,19 +4,18 @@ import { API_URL } from '../../../../init/constants';
 // Types
 import * as types from '../../types';
 
-export const fetchMessages: () => Promise<types.MessagesState> = async () => {
+export const createMessage: (message: types.userMessage) => Promise<types.Message> = async (message) => {
     const response = await fetch(`${API_URL}/messages`, {
-        method:  'GET',
+        method:  'POST',
         headers: {
             'Content-Type': 'application/json',
         },
+        body: JSON.stringify(message),
     });
 
     if (response.status !== 200) {
-        throw new Error('Message fetch failed');
+        throw new Error(`Message fetch failed with status: ${response.status}`);
     }
 
-    const result = await response.json() as types.MessagesState;
-
-    return result;
+    return response.json();
 };

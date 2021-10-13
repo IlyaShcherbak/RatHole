@@ -1,11 +1,8 @@
 // Core
 import React, { FC } from 'react';
 
-// MUI
-// import Button from '@mui/material/Button';
-
 // Components
-import { ErrorBoundary, Header } from '../../components';
+import { ErrorBoundary, Header, Chat } from '../../components';
 
 // Redux
 import { useUser } from '../../../bus/user';
@@ -30,6 +27,7 @@ const Main: FC = () => {
                     logOut = { resetUser }
                     user = { user }
                 />
+                <Chat currentUser = { user } />
             </Container>
         </PageContainer>
     );

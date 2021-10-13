@@ -17,23 +17,9 @@ import { NameUser } from './types';
 // Bus
 import { noUser, userActions } from './slice';
 
-
-// export const useUser = () => {
-//     const dispatch = useDispatch();
-
-//     return {
-//         refreshUser: async () => {
-//             const localstorageId = await localStorage.get('userId');
-//             localstorageId && dispatch(actions.refreshUserActionAsync(localstorageId));
-//         },
-//         registerUser: (username: Username) => dispatch(actions.registerUserActionAsync(username)),
-//     };
-// };
-
 export const useUser = () => {
     const dispatch = useDispatch();
     const { setTogglerAction } = useTogglersRedux();
-    // const [ userId, setUserId ] = useLocalStorage('userId', '');
 
     const userId = localStorage.get('userId');
 
@@ -46,7 +32,6 @@ export const useUser = () => {
 
         if (hasUserId) {
             if (user) {
-                // dispatch(userActions.setUser(user));
                 dispatch(actions.refreshUserActionAsync(userId));
             }
         }
