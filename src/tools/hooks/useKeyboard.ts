@@ -60,19 +60,14 @@ const defaultLayout: Layout = {
     ],
 };
 
-export type KeyEventData = {
-    key: string;
-    code: string;
-    shiftKey?: boolean;
-}
+export type KeyEventData = Partial<KeyboardEvent>;
 
-const noKeyPressed: KeyEventData = { key: '', code: '', shiftKey: false };
-
+const noKeyPressed = { key: '', code: '', shiftKey: false };
 
 export const useKeyboard = () => {
     const { user } = useUser();
     const { currentMessage, setCurrentMessage, sendMessage } = useCurrentMessage();
-    const [ keyPressed, changeKeyPressed ] = useState<KeyEventData>(noKeyPressed);
+    const [ keyPressed, changeKeyPressed ] = useState<Partial<KeyboardEvent>>(noKeyPressed);
     const [ isShiftPressed, setShiftPressed ] = useState(false);
     const [ isCapslockPressed, setCapslockPressed ] = useState(false);
 
@@ -94,13 +89,18 @@ export const useKeyboard = () => {
 
     const handleShift = () => setShiftPressed(!isShiftPressed);
 
-    const handleCapslock = () => {
-        setCapslockPressed(!isCapslockPressed);
+    const handleCapslock = (keyEvent?: KeyEventData) => {
+        if (keyEvent && keyEvent.getModifierState) {
+            setCapslockPressed(keyEvent.getModifierState(SpecialKey.CapsLock));
+        } else {
+            setCapslockPressed(!isCapslockPressed);
+        }
+
         setShiftPressed(false);
     };
 
     const handleEnter = () => {
-        if (currentMessage) {
+        if (currentMessage.trim()) {
             sendMessage({ text: currentMessage, username: user.username });
             setCurrentMessage('');
         }
@@ -113,7 +113,7 @@ export const useKeyboard = () => {
     };
 
     const handleSimpleKey = (keyEvent: KeyEventData) => {
-        const isSimpleKey = keyEvent.key.length === 1;
+        const isSimpleKey = keyEvent.key && keyEvent.key.length === 1;
 
         if (isSimpleKey) {
             setCurrentMessage(`${currentMessage}${keyEvent.key}`);
@@ -150,25 +150,44 @@ export const useKeyboard = () => {
         }
     };
 
-    const onKeyDown = (keyData: KeyEventData) => {
+    const onKeyDown = (keyEvent: KeyboardEvent) => {
         const input = document.querySelector('#messageText') as HTMLInputElement;
         input.focus();
 
-        if (keyData.key !== keyPressed.key) {
-            changeKeyPressed(keyData);
+        if (keyEvent.key !== keyPressed.key) {
+            changeKeyPressed(keyEvent);
+
+            if (keyEvent.key === SpecialKey.CapsLock) {
+                handleCapslock(keyEvent);
+            }
         }
     };
 
     const onKeyUp = () => changeKeyPressed(noKeyPressed);
 
     useEffect(() => {
-        window.addEventListener('keydown', ({ key, code, shiftKey }) => onKeyDown({ key, code, shiftKey }), false);
+        window.addEventListener('keydown', (event) => onKeyDown(event), false);
         window.addEventListener('keyup', onKeyUp, false);
     }, []);
+
+    const getSpecialKey = (key: string) => specialKeys[ key as SpecialKey ];
+
+    const isKeyPressed = (key: string) => {
+        const isSpecial = Boolean(getSpecialKey(key));
+        let isPressed = isSpecial ? keyPressed.code === key : keyPressed.key === key;
+
+        if (key === SpecialKey.CapsLock) {
+            isPressed = isCapslockPressed;
+        }
+
+        return isPressed;
+    };
 
     return {
         keyPressed,
         currentLayout,
         onKeyClick,
+        getSpecialKey,
+        isKeyPressed,
     };
 };

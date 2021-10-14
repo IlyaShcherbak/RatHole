@@ -2,7 +2,7 @@
 import React, { FC } from 'react';
 
 // Hooks
-import { SpecialKey, specialKeys, useKeyboard } from '../../../tools/hooks';
+import { useKeyboard } from '../../../tools/hooks';
 
 // Types
 import { User } from '../../../bus/user/types';
@@ -18,15 +18,15 @@ type PropTypes = {
 }
 
 export const KeyBoard: FC<PropTypes> = () => {
-    const { keyPressed, currentLayout, onKeyClick } = useKeyboard();
+    const { currentLayout, onKeyClick, isKeyPressed, getSpecialKey } = useKeyboard();
 
     const buttonsLayout = currentLayout.map((row) => {
         const keysArray = row.split(' ');
 
         const keyBtns = keysArray.map((btnKey, keyIndex) => {
-            const specialValue = specialKeys[ btnKey as SpecialKey ];
+            const specialValue = getSpecialKey(btnKey);
             const isSpecialKey = Boolean(specialValue);
-            const isPressed = isSpecialKey ? keyPressed.code === btnKey : keyPressed.key === btnKey;
+            const isPressed = isKeyPressed(btnKey);
 
             const keyText = isSpecialKey ? specialValue.key : btnKey;
             const code = isSpecialKey ? btnKey : `Key${btnKey}`;

@@ -24,7 +24,7 @@ export const ChatInputForm: FC<PropTypes> = ({ user, toogleKeyboard }) => {
     const { currentMessage, setCurrentMessage, sendMessage } = useCurrentMessage();
 
     const sendButtonClick = () => {
-        if (currentMessage) {
+        if (currentMessage.trim()) {
             sendMessage({ text: currentMessage, username: user.username });
             setCurrentMessage('');
         }
@@ -50,7 +50,7 @@ export const ChatInputForm: FC<PropTypes> = ({ user, toogleKeyboard }) => {
                 />
                 <StyledButton
                     color = 'primary'
-                    disabled = { !currentMessage }
+                    disabled = { !currentMessage.trim() }
                     type = 'submit'
                     variant = 'contained'
                     onClick = { sendButtonClick }>
