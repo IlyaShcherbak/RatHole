@@ -1,8 +1,11 @@
 // Core
-import React, { FC, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
+
+// Bus
+import { useCurrentMessage } from '../../../bus/currentMessage';
 
 // Types
-import { KeyEventData } from '../../pages/Main';
+import { User } from '../../../bus/user/types';
 
 // Components
 import { KeyButton, SpecialKey } from '../KeyButton';
@@ -36,15 +39,22 @@ const defaultLayout: Layout = {
     ],
 };
 
-type PropTypes = {
-    layout?: Layout;
-    keyPressed: KeyEventData;
-    text: string;
-    setText: (newText: string) => void;
-    submitText: () => void;
+export type KeyEventData = {
+    key: string;
+    code: string;
+    shiftKey?: boolean;
 }
 
-export const KeyBoard: FC<PropTypes> = ({ layout = defaultLayout, keyPressed, text, setText, submitText }) => {
+const noKeyPressed: KeyEventData = { key: '', code: '', shiftKey: false };
+
+type PropTypes = {
+    layout?: Layout;
+    user:  User,
+}
+
+export const KeyBoard: FC<PropTypes> = ({ layout = defaultLayout, user }) => {
+    const { currentMessage, setCurrentMessage, sendMessage } = useCurrentMessage();
+    const [ keyPressed, changeKeyPressed ] = useState<KeyEventData>(noKeyPressed);
     const [ isShiftPressed, setShiftPressed ] = useState(false);
     const [ isCapslockPressed, setCapslockPressed ] = useState(false);
 
@@ -52,23 +62,19 @@ export const KeyBoard: FC<PropTypes> = ({ layout = defaultLayout, keyPressed, te
     const layoutType = isCapslockPressed || isShiftPressed || shiftKey ? LayoutType.shift : LayoutType.default;
     const currentLayout = layout[ layoutType ];
 
-    const handleBackspace = () => {
-        setText(text.slice(0, -1));
+    const handleBackquote = () => {
+        setCurrentMessage(`${currentMessage}\``);
+        setShiftPressed(false);
     };
+
+    const handleBackspace = () => setCurrentMessage(currentMessage.slice(0, -1));
 
     const handleTab = () => {
-        setText(`${text}¯\\_( ͡👁 ʖ ͡👁)_/'`);
+        setCurrentMessage(`${currentMessage}¯\\_( ͡👁 ʖ ͡👁)_/'`);
         setShiftPressed(false);
     };
 
-    const handleSimpleKey = (keyValue: string) => {
-        setText(`${text}${keyValue}`);
-        setShiftPressed(false);
-    };
-
-    const handleShift = () => {
-        setShiftPressed(!isShiftPressed);
-    };
+    const handleShift = () => setShiftPressed(!isShiftPressed);
 
     const handleCapslock = () => {
         setCapslockPressed(!isCapslockPressed);
@@ -76,17 +82,34 @@ export const KeyBoard: FC<PropTypes> = ({ layout = defaultLayout, keyPressed, te
     };
 
     const handleEnter = () => {
-        submitText();
+        if (currentMessage) {
+            sendMessage({ text: currentMessage, username: user.username });
+            setCurrentMessage('');
+        }
         setShiftPressed(false);
     };
 
     const handleSpace = () => {
-        setText(`${text} `);
+        setCurrentMessage(`${currentMessage} `);
         setShiftPressed(false);
     };
 
-    const onKeyClick = (keyValue: string, keyCode: string) => {
-        switch (keyCode) {
+    const handleSimpleKey = (keyEvent: KeyEventData) => {
+        const isSimpleKey = keyEvent.key.length === 1;
+
+
+        if (isSimpleKey) {
+            setCurrentMessage(`${currentMessage}${keyEvent.key}`);
+            setShiftPressed(false);
+        }
+    };
+
+    const onKeyClick = (keyEvent: KeyEventData) => {
+        console.log({ currentMessage });
+        switch (keyEvent.code) {
+            case SpecialKey.Backquote:
+                handleBackquote();
+                break;
             case SpecialKey.Backspace:
                 handleBackspace();
                 break;
@@ -107,9 +130,27 @@ export const KeyBoard: FC<PropTypes> = ({ layout = defaultLayout, keyPressed, te
                 handleSpace();
                 break;
             default:
-                handleSimpleKey(keyValue);
+                handleSimpleKey(keyEvent);
         }
     };
+
+    const onKeyDown = (keyData: KeyEventData) => {
+        const input = document.querySelector('#messageText') as HTMLInputElement;
+        input.focus();
+
+        if (keyData.key !== keyPressed.key) {
+            changeKeyPressed(keyData);
+        }
+    };
+
+    const onKeyUp = () => {
+        changeKeyPressed(noKeyPressed);
+    };
+
+    useEffect(() => {
+        window.addEventListener('keydown', ({ key, code, shiftKey }) => onKeyDown({ key, code, shiftKey }), false);
+        window.addEventListener('keyup', onKeyUp, false);
+    }, []);
 
     const buttonsLayout = currentLayout.map((row) => {
         const keysArray = row.split(' ');

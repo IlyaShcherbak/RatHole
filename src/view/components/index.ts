@@ -4,3 +4,4 @@ export * from './Header';
 export * from './Chat';
 export * from './KeyBoard';
 export * from './KeyButton';
+export * from './ChatInputForm';

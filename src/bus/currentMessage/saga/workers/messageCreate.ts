@@ -3,10 +3,10 @@ import { put } from 'redux-saga/effects';
 
 // Types
 import * as types from '../types';
-import { userMessage } from '../../types';
+import { CreateCurrentMessagePayload } from '../../types';
 
 // Actions
-import { fetchMessagesActionAsync } from '../actions';
+import { createCurrentMessageActionAsync } from '../actions';
 
 // Api
 import * as API from '../api';
@@ -15,11 +15,11 @@ import * as API from '../api';
 import { makeRequest } from '../../../../tools/utils';
 
 export function* messageCreate({ payload }: types.CreateMessagesActionAsync) {
-    yield makeRequest<userMessage>({
+    yield makeRequest<CreateCurrentMessagePayload>({
         fetcher:           () => API.createMessage(payload),
         togglerType:       'isMessagesCreating',
         successSideEffect: function*() {
-            yield put(fetchMessagesActionAsync());
+            yield put(createCurrentMessageActionAsync(payload));
         },
     });
 }

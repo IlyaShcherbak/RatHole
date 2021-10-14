@@ -1,11 +1,9 @@
 // Core
-import { put } from 'redux-saga/effects';
+import { put, select } from 'redux-saga/effects';
+import { isEqual } from 'lodash';
 
 // Bus
 import { togglerCreatorAction } from '../../../client/togglers';
-
-// Types
-import { MessagesState } from '../../types';
 
 // Actions
 import { messagesActions } from '../../slice';
@@ -16,16 +14,27 @@ import * as API from '../api';
 // Tools
 import { makeRequest } from '../../../../tools/utils';
 
-export function* messagesFetch() {
-    yield makeRequest<MessagesState>({
-        fetcher:           API.fetchMessages,
-        togglerType:       'isMessagesFetching',
-        succesAction:      messagesActions.setMessages,
-        successSideEffect: function*() {
+// Types
+import { MessagesState } from '../../types';
+import { RootState } from '../../../../init';
+
+export const messagesFetch = () => makeRequest<MessagesState>({
+    fetcher:           API.fetchMessages,
+    successSideEffect: function*(newMessages) {
+        const {
+            messages,
+            togglers: { isMessagesInitialised },
+        }: RootState = yield select((state) => state);
+
+        if (!isEqual(messages, newMessages)) {
+            yield put(messagesActions.setMessages(newMessages));
+        }
+
+        if (!isMessagesInitialised) {
             yield put(togglerCreatorAction({
                 type:  'isMessagesInitialised',
                 value: true,
             }));
-        },
-    });
-}
+        }
+    },
+});

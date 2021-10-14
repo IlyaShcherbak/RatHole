@@ -1,8 +1,9 @@
 // Core
-import React, { FC, ReactElement } from 'react';
+import React, { FC } from 'react';
 
 // Components
 import { Message } from '../Message';
+import { ChatInputForm } from '../ChatInputForm';
 
 // Elements
 import { Spinner } from '../../elements';
@@ -18,10 +19,10 @@ type PropTypes = {
     currentUser: User,
     messages: Messages,
     isChatInitialised: boolean,
-    children?: ReactElement
+    toogleKeyboard: () => void
 }
 
-export const Chat: FC<PropTypes> = ({ currentUser, messages, isChatInitialised, children }) => {
+export const Chat: FC<PropTypes> = ({ currentUser, messages, isChatInitialised, toogleKeyboard }) => {
     return (
         <Container>
             <ChatBox elevation = { 3 }>
@@ -39,7 +40,10 @@ export const Chat: FC<PropTypes> = ({ currentUser, messages, isChatInitialised, 
                         )) : <Spinner />
                     }
                 </MessagesBox>
-                {children}
+                <ChatInputForm
+                    toogleKeyboard = { toogleKeyboard }
+                    user = { currentUser }
+                />
             </ChatBox>
         </Container>
     );

@@ -1,8 +1,8 @@
 // Core
-import React, { FC } from 'react';
+import { KeyEventData } from '../KeyBoard';
 
 // Types
-import { KeyEventData } from '../../pages/Main';
+import React, { FC } from 'react';
 
 // Styles
 import { StyledButton } from './styles';
@@ -10,7 +10,7 @@ import { StyledButton } from './styles';
 type PropTypes = {
     keyValue: string;
     pressedKey: KeyEventData;
-    onClick: (keyValue: string, keyCode: string) => void;
+    onClick: (keyEvent: KeyEventData) => void;
 }
 
 export enum SpecialKey {
@@ -52,7 +52,7 @@ export const KeyButton: FC<PropTypes> = ({ keyValue, onClick, pressedKey }) => {
     return (
         <StyledButton
             className = { `${isSpecialKey ? 'special' : ''} ${isPressed ? 'pressed' : ''}` }
-            onClick = { () => onClick(keyValue, code) }>
+            onClick = { () => onClick({ key: keyValue, code }) }>
             {keyText}
         </StyledButton>
     );

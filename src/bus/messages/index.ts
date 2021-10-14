@@ -2,14 +2,17 @@
 import { useDispatch } from 'react-redux';
 import { useEffect } from 'react';
 
-// Tools
-import { useSelector } from '../../tools/hooks';
 
 // Saga actions
 import * as asyncActions from './saga/actions';
 
-// Types
-import * as types from './types';
+// Tools
+import { useSelector } from '../../tools/hooks';
+
+const isDev = process.env.NODE_ENV === 'development';
+
+// eslint-disable-next-line init-declarations
+let intervalId: ReturnType<typeof setInterval> | void = void 0;
 
 export const useMessages = () => {
     const dispatch = useDispatch();
@@ -18,20 +21,31 @@ export const useMessages = () => {
         isInitialised: state.togglers.isMessagesInitialised,
     }));
 
-    useEffect(() => {
-        setInterval(() => dispatch(asyncActions.fetchMessagesActionAsync()), 1000);
-    }, []);
-
     const getMessages = () => {
         dispatch(asyncActions.fetchMessagesActionAsync());
     };
-    const createMessage = (payload: types.userMessage) => {
-        dispatch(asyncActions.createhMessagesActionAsync(payload));
-    };
+
+    useEffect(() => {
+        if (intervalId) {
+            return () => void 0;
+        }
+
+        getMessages();
+
+        intervalId = setInterval(() => {
+            getMessages();
+        }, isDev ? 7000 : 2000);
+
+        return () => {
+            if (intervalId) {
+                clearInterval(intervalId);
+            }
+        };
+    }, []);
+
 
     return {
         ...selector,
         getMessages,
-        createMessage,
     };
 };

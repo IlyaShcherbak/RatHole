@@ -26,7 +26,8 @@ export function* makeRequest<T>(options: OptionsType<T>) {
     const {
         fetcher, togglerType,
         succesAction, errorAction,
-        successSideEffect, errorSideEffect,
+        successSideEffect,
+        errorSideEffect,
         isControlledMode,
     } = options;
 

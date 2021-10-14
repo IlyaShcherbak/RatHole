@@ -14,10 +14,5 @@ export type Messages = Array<Message>
 
 export type MessagesState = Messages;
 
-export type userMessage = {
-    username: Message['username']
-    text: Message['text']
-}
-
 // Contracts
 export type SetMessagesContract = CaseReducer<MessagesState, PayloadAction<MessagesState>>

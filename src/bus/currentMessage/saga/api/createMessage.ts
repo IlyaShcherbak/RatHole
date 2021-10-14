@@ -4,7 +4,8 @@ import { API_URL } from '../../../../init/constants';
 // Types
 import * as types from '../../types';
 
-export const createMessage: (message: types.userMessage) => Promise<types.Message> = async (message) => {
+export const createMessage: (message: types.CreateCurrentMessagePayload)
+=> Promise<types.CreateCurrentMessagePayload> = async (message) => {
     const response = await fetch(`${API_URL}/messages`, {
         method:  'POST',
         headers: {
@@ -14,7 +15,7 @@ export const createMessage: (message: types.userMessage) => Promise<types.Messag
     });
 
     if (response.status !== 200) {
-        throw new Error(`Message fetch failed with status: ${response.status}`);
+        throw new Error(`Message create failed with status: ${response.status}`);
     }
 
     return response.json();

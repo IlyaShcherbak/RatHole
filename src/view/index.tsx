@@ -16,10 +16,13 @@ import { GlobalStyles, defaultTheme } from '../assets';
 // Styles
 import { AppContainer } from './styles';
 
+// Elements
+import { Spinner } from './elements';
+
 export const App: FC = () => {
     const { setTogglerAction } = useTogglersRedux();
     const [ isDefaultTheme ] = useLocalStorage('isDefaultTheme', true);
-    const { checkUser } = useUser();
+    const { checkUser, isFetching } = useUser();
 
     const setOnlineStatusHanlder = useCallback(() => void setTogglerAction({
         type:  'isOnline',
@@ -32,6 +35,10 @@ export const App: FC = () => {
         window.addEventListener('online', setOnlineStatusHanlder);
         window.addEventListener('offline', setOnlineStatusHanlder);
     }, []);
+
+    if (isFetching) {
+        return <Spinner absolute/>;
+    }
 
     return (
         <ThemeProvider theme = { isDefaultTheme ? defaultTheme : defaultTheme } >
