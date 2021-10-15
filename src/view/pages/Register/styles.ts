@@ -17,6 +17,7 @@ export const Header = styled(Typography)`
         font-size: 2.5rem;
         margin-top: 75px;
         letter-spacing: 0.2rem;
+        color: #5c4d3c;
 
         ${up('md')} {
             margin-top: 90px;

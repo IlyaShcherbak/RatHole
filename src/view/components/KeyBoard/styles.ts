@@ -7,6 +7,7 @@ export const Container = styled.section`
     display: grid;
     background-color: gray;
     margin: 30px 0;
+    z-index: 2;
 `;
 
 export const KeyRow = styled.div`

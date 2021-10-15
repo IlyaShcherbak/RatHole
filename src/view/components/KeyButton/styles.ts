@@ -20,8 +20,8 @@ export const StyledButton = styled(Button)((props) => ({
         backgroundColor: 'black',
         borderColor:     'orange',
 
-        [ up('lg')(props) ]: {
-            minWidth: 33,
+        [ up('sm')(props) ]: {
+            minWidth: 31,
             fontSize: 15,
             padding:  '5px 6px',
         },
@@ -46,7 +46,7 @@ export const StyledButton = styled(Button)((props) => ({
         width:    '100%',
         fontSize: 8,
 
-        [ up('lg')(props) ]: {
+        [ up('sm')(props) ]: {
             fontSize: 12,
         },
     },

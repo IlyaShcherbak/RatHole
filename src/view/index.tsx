@@ -14,7 +14,10 @@ import { useUser } from '../bus/user';
 import { GlobalStyles, defaultTheme } from '../assets';
 
 // Styles
-import { AppContainer } from './styles';
+import { AppContainer, AppImage } from './styles';
+
+// Images
+import ratImg from '../assets/images/halloween_rat.png';
 
 // Elements
 import { Spinner } from './elements';
@@ -46,6 +49,7 @@ export const App: FC = () => {
             <AppContainer>
                 <Routes />
             </AppContainer>
+            <AppImage src = { ratImg } />
         </ThemeProvider>
     );
 };
