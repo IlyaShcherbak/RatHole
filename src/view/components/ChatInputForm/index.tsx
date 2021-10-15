@@ -36,7 +36,7 @@ export const ChatInputForm: FC<PropTypes> = ({ user, toogleKeyboard }) => {
         }
     };
 
-    const clearMessage = () => setCurrentMessage('');
+    const clearMessage = () => setCurrentMessage('', '');
 
     return (
         <form onSubmit = { (event) => event.preventDefault() }>

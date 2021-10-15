@@ -1,5 +1,6 @@
 // Core
 import { useDispatch } from 'react-redux';
+import { isUndefined } from 'lodash';
 
 // Tools
 import { useSelector } from '../../tools/hooks';
@@ -15,7 +16,8 @@ export const useCurrentMessage = () => {
     const currentMessage = useSelector(({ currentMessage }) => currentMessage);
 
     const setCurrentMessage = (text: string, newId?: string) => {
-        dispatch(currentMessagesActions.setCurrentMessage({ text, id: newId || currentMessage.id }));
+        const id = isUndefined(newId) ? currentMessage.id : newId;
+        dispatch(currentMessagesActions.setCurrentMessage({ text, id }));
     };
 
     const sendMessage = (text: string, username: string) => {
