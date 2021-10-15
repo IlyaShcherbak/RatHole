@@ -8,7 +8,7 @@ import * as API from '../api';
 // Tools
 import { makeRequest } from '../../../../tools/utils';
 
-export function* messageDelete({ payload }: types.DeleteMessagesActionAsync) {
+export function* messageDelete({ payload }: types.DeleteMessageActionAsync) {
     yield makeRequest<DeleteCurrentMessagePayload>({
         fetcher: () => API.deleteMessage(payload),
     });

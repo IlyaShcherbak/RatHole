@@ -28,7 +28,7 @@ type PropTypes = {
 
 export const Message: FC<PropTypes> = ({ message, time, userName, isEdited, isOwnMessage, id }) => {
     const [ showDialog, setShowDialog ] = useState(false);
-    const { deleteMessage } = useCurrentMessage();
+    const { currentMessage, deleteMessage, setCurrentMessage } = useCurrentMessage();
 
     const onDeleteClick = () => setShowDialog(true);
 
@@ -38,6 +38,8 @@ export const Message: FC<PropTypes> = ({ message, time, userName, isEdited, isOw
         deleteMessage(id);
     };
 
+    const onEditClick = () => setCurrentMessage(message, id);
+
     return (
         <S.MessageBox className = { isOwnMessage ? 'sender' : '' }>
             <S.MessageBoxContainer>
@@ -45,6 +47,17 @@ export const Message: FC<PropTypes> = ({ message, time, userName, isEdited, isOw
                     {
                         isOwnMessage && (
                             <>
+                                <IconButton
+                                    color = 'warning'
+                                    disabled = { currentMessage.id === id }
+                                    size = 'small'
+                                    sx = {{ marginRight: 1 }}
+                                    onClick = { onEditClick }>
+                                    <FontAwesomeIcon
+                                        icon = 'edit'
+                                        size = 'xs'
+                                    />
+                                </IconButton>
                                 <IconButton
                                     color = 'warning'
                                     size = 'small'

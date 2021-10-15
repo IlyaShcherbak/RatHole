@@ -14,7 +14,7 @@ import * as API from '../api';
 // Tools
 import { makeRequest } from '../../../../tools/utils';
 
-export function* messageCreate({ payload }: types.CreateMessagesActionAsync) {
+export function* messageCreate({ payload }: types.CreateMessageActionAsync) {
     yield makeRequest<CreateCurrentMessagePayload>({
         fetcher:           () => API.createMessage(payload),
         togglerType:       'isMessagesCreating',

@@ -85,7 +85,7 @@ const noKeyPressed = { key: '', code: '', shiftKey: false };
 
 export const useKeyboard = () => {
     const { user } = useUser();
-    const { currentMessage, setCurrentMessage, sendMessage } = useCurrentMessage();
+    const { currentMessage: { text, id }, setCurrentMessage, sendMessage, editMessage } = useCurrentMessage();
     const [ keyPressed, changeKeyPressed ] = useState<Partial<KeyboardEvent>>(noKeyPressed);
     const [ isShiftPressed, setShiftPressed ] = useState(false);
     const [ isCapslockPressed, setCapslockPressed ] = useState(false);
@@ -100,14 +100,14 @@ export const useKeyboard = () => {
     };
 
     const handleBackquote = () => {
-        setCurrentMessage(`${currentMessage}\``);
+        setCurrentMessage(`${text}\``);
         setShiftPressed(false);
     };
 
-    const handleBackspace = () => setCurrentMessage(currentMessage.slice(0, -1));
+    const handleBackspace = () => setCurrentMessage(text.slice(0, -1));
 
     const handleTab = () => {
-        setCurrentMessage(`${currentMessage}¯\\_( ͡👁 ʖ ͡👁)_/'`);
+        setCurrentMessage(`${text}¯\\_( ͡👁 ʖ ͡👁)_/'`);
         setShiftPressed(false);
     };
 
@@ -124,15 +124,17 @@ export const useKeyboard = () => {
     };
 
     const handleEnter = () => {
-        if (currentMessage.trim()) {
-            sendMessage({ text: currentMessage, username: user.username });
-            setCurrentMessage('');
+        const trimmedMessage = text.trim();
+        if (trimmedMessage) {
+            id
+                ? editMessage(trimmedMessage, id)
+                : sendMessage(trimmedMessage, user.username);
         }
         setShiftPressed(false);
     };
 
     const handleSpace = () => {
-        setCurrentMessage(`${currentMessage} `);
+        setCurrentMessage(`${text} `);
         setShiftPressed(false);
     };
 
@@ -140,7 +142,7 @@ export const useKeyboard = () => {
         const isSimpleKey = keyEvent.key && keyEvent.key.length === 1;
 
         if (isSimpleKey) {
-            setCurrentMessage(`${currentMessage}${keyEvent.key}`);
+            setCurrentMessage(`${text}${keyEvent.key}`);
             setShiftPressed(false);
         }
     };

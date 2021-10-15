@@ -16,5 +16,10 @@ export type DeleteCurrentMessagePayload = {
     id: string;
 }
 
+export type EditCurrentMessagePayload = {
+    text: string;
+    id: string;
+}
+
 // Contracts
 export type SetMessagesContract = CaseReducer<CurrentMessageState, PayloadAction<CurrentMessageState>>;

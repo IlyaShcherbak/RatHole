@@ -10,3 +10,8 @@ export const deleteCurrentMessageActionAsync: types.DeleteCurrentMessageContract
     type: types.DELETE_CURRENT_MESSAGE_ASYNC,
     payload,
 });
+
+export const editCurrentMessageActionAsync: types.EditCurrentMessageContract = (payload) => ({
+    type: types.EDIT_CURRENT_MESSAGE_ASYNC,
+    payload,
+});

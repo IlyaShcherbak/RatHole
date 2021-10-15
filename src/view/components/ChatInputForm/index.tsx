@@ -23,23 +23,36 @@ type PropTypes = {
 }
 
 export const ChatInputForm: FC<PropTypes> = ({ user, toogleKeyboard }) => {
-    const { currentMessage, setCurrentMessage, sendMessage } = useCurrentMessage();
+    const { currentMessage: { text, id }, setCurrentMessage, sendMessage, editMessage } = useCurrentMessage();
+
+    const isEditMode = Boolean(id);
 
     const sendButtonClick = () => {
-        if (currentMessage.trim()) {
-            sendMessage({ text: currentMessage, username: user.username });
-            setCurrentMessage('');
+        const trimmedMessage = text.trim();
+        if (trimmedMessage) {
+            isEditMode
+                ? editMessage(trimmedMessage, id)
+                : sendMessage(trimmedMessage, user.username);
         }
     };
+
+    const clearMessage = () => setCurrentMessage('');
 
     return (
         <form onSubmit = { (event) => event.preventDefault() }>
             <UserInputContainer>
                 <IconButton
-                    color = 'primary'
+                    color = 'warning'
                     onClick = { toogleKeyboard }>
                     <FontAwesomeIcon icon = 'keyboard' />
                 </IconButton>
+                <IconButton
+                    color = 'warning'
+                    sx = {{ marginRight: 1, minWidth: 40, gridColumn: 3 }}
+                    onClick = { clearMessage }>
+                    <FontAwesomeIcon icon = 'times-circle' />
+                </IconButton>
+
                 <TextField
                     autoFocus
                     fullWidth
@@ -47,16 +60,17 @@ export const ChatInputForm: FC<PropTypes> = ({ user, toogleKeyboard }) => {
                     label = 'Enter message...'
                     name = 'messageText'
                     size = 'small'
-                    value = { currentMessage }
+                    sx = {{ gridColumn: '1/-1' }}
+                    value = { text }
                     onChange = { (event) => setCurrentMessage(event.target.value) }
                 />
                 <StyledButton
-                    color = 'primary'
-                    disabled = { !currentMessage.trim() }
+                    color = 'warning'
+                    disabled = { !text.trim() }
                     type = 'submit'
                     variant = 'contained'
                     onClick = { sendButtonClick }>
-                    Send
+                    { isEditMode ? 'Edit' : 'Send' }
                 </StyledButton>
             </UserInputContainer>
         </form>

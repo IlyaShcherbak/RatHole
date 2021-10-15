@@ -10,19 +10,21 @@ import { currentMessagesActions } from './slice';
 // Saga actions
 import * as asyncActions from './saga/actions';
 
-// Types
-import * as types from './types';
-
 export const useCurrentMessage = () => {
     const dispatch = useDispatch();
-    const { text } = useSelector(({ currentMessage: { text, id }}) => ({ text, id }));
+    const currentMessage = useSelector(({ currentMessage }) => currentMessage);
 
-    const setCurrentMessage = (text: string, id?: string) => {
-        dispatch(currentMessagesActions.setCurrentMessage({ text, id }));
+    const setCurrentMessage = (text: string, newId?: string) => {
+        dispatch(currentMessagesActions.setCurrentMessage({ text, id: newId || currentMessage.id }));
     };
 
-    const sendMessage = (payload: types.CreateCurrentMessagePayload) => {
-        dispatch(asyncActions.createCurrentMessageActionAsync(payload));
+    const sendMessage = (text: string, username: string) => {
+        dispatch(asyncActions.createCurrentMessageActionAsync({ text, username }));
+        setCurrentMessage('', '');
+    };
+
+    const editMessage = (text: string, id = '') => {
+        dispatch(asyncActions.editCurrentMessageActionAsync({ text, id }));
     };
 
     const deleteMessage = (id: string) => {
@@ -30,9 +32,10 @@ export const useCurrentMessage = () => {
     };
 
     return {
-        currentMessage: text,
+        currentMessage,
         setCurrentMessage,
         sendMessage,
         deleteMessage,
+        editMessage,
     };
 };

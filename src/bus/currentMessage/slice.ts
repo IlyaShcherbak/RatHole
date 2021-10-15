@@ -11,11 +11,11 @@ const initialState: CurrentMessageState = {
     text: '',
 };
 
-export const currentMessagesSlice = createSlice({
+export const currentMessageSlice = createSlice({
     name: 'currentMessage',
     initialState,
     reducers,
 });
 
-export const currentMessagesActions = currentMessagesSlice.actions;
-export default currentMessagesSlice.reducer;
+export const currentMessagesActions = currentMessageSlice.actions;
+export default currentMessageSlice.reducer;
