@@ -13,6 +13,7 @@ export enum SpecialKey {
     Enter = 'Enter',
     ShiftLeft = 'ShiftLeft',
     ShiftRight = 'ShiftRight',
+    ChangeLang = 'ChangeLang',
     Space = 'Space',
 }
 
@@ -30,6 +31,7 @@ export const specialKeys: SpecialKeys = {
     Enter:      { code: 'Enter', key: 'Enter ↵' },
     ShiftLeft:  { code: 'ShiftLeft', key: 'Shift ⇧' },
     ShiftRight: { code: 'ShiftRight', key: 'Shift ⇧' },
+    ChangeLang: { code: 'ChangeLang', key: '🌐' },
     Space:      { code: ' ', key: 'Space' },
 };
 
@@ -49,14 +51,31 @@ const defaultLayout: Layout = {
         `${SpecialKey.Tab} q w e r t y u i o p [ ] \\`,
         `${SpecialKey.CapsLock} a s d f g h j k l ; \' ${SpecialKey.Enter}`,
         `${SpecialKey.ShiftLeft} z x c v b n m , . / ${SpecialKey.ShiftRight}`,
-        `${SpecialKey.Space}`,
+        `${SpecialKey.ChangeLang} ${SpecialKey.Space}`,
     ],
     shift: [
         `~ ! @ # $ % ^ & * ( ) _ + ${SpecialKey.Backspace}`,
         `${SpecialKey.Tab} Q W E R T Y U I O P { } |`,
         `${SpecialKey.CapsLock} A S D F G H J K L : " ${SpecialKey.Enter}`,
         `${SpecialKey.ShiftLeft} Z X C V B N M < > ? ${SpecialKey.ShiftRight}`,
-        `${SpecialKey.Space}`,
+        `${SpecialKey.ChangeLang} ${SpecialKey.Space}`,
+    ],
+};
+
+const ruLayout: Layout = {
+    default: [
+        `${SpecialKey.Backquote} 1 2 3 4 5 6 7 8 9 0 - = ${SpecialKey.Backspace}`,
+        `${SpecialKey.Tab} й ц у к е н г ш щ з х ъ \\`,
+        `${SpecialKey.CapsLock} ф ы в а п р о л д ж э ${SpecialKey.Enter}`,
+        `${SpecialKey.ShiftLeft} я ч с м и т ь б ю . ${SpecialKey.ShiftRight}`,
+        `${SpecialKey.ChangeLang} ${SpecialKey.Space}`,
+    ],
+    shift: [
+        `~ ! @ # $ % ^ & * ( ) _ + ${SpecialKey.Backspace}`,
+        `${SpecialKey.Tab} Й Ц У К Е Н Г Ш Щ З Х Ъ |`,
+        `${SpecialKey.CapsLock} Ф Ы В А П Р О Л Д Ж Э ${SpecialKey.Enter}`,
+        `${SpecialKey.ShiftLeft} Я Ч С М И Т Ь Б Ю , ${SpecialKey.ShiftRight}`,
+        `${SpecialKey.ChangeLang} ${SpecialKey.Space}`,
     ],
 };
 
@@ -70,10 +89,15 @@ export const useKeyboard = () => {
     const [ keyPressed, changeKeyPressed ] = useState<Partial<KeyboardEvent>>(noKeyPressed);
     const [ isShiftPressed, setShiftPressed ] = useState(false);
     const [ isCapslockPressed, setCapslockPressed ] = useState(false);
+    const [ layout, setLayout ] = useState(defaultLayout);
 
     const { shiftKey } = keyPressed;
     const layoutType = isCapslockPressed || isShiftPressed || shiftKey ? LayoutType.shift : LayoutType.default;
-    const currentLayout = defaultLayout[ layoutType ];
+    const currentLayout = layout[ layoutType ];
+
+    const handleChangeLayout = () => {
+        setLayout(layout === defaultLayout ? ruLayout : defaultLayout);
+    };
 
     const handleBackquote = () => {
         setCurrentMessage(`${currentMessage}\``);
@@ -144,6 +168,9 @@ export const useKeyboard = () => {
                 break;
             case SpecialKey.Space:
                 handleSpace();
+                break;
+            case SpecialKey.ChangeLang:
+                handleChangeLayout();
                 break;
             default:
                 handleSimpleKey(keyEvent);
