@@ -15,19 +15,24 @@ import * as types from './types';
 
 export const useCurrentMessage = () => {
     const dispatch = useDispatch();
-    const { currentMessage } = useSelector(({ currentMessage }) => ({ currentMessage }));
+    const { text } = useSelector(({ currentMessage: { text, id }}) => ({ text, id }));
 
-    const setCurrentMessage = (payload: types.CurrentMessageState) => {
-        dispatch(currentMessagesActions.setCurrentMessage(payload));
+    const setCurrentMessage = (text: string, id?: string) => {
+        dispatch(currentMessagesActions.setCurrentMessage({ text, id }));
     };
 
     const sendMessage = (payload: types.CreateCurrentMessagePayload) => {
         dispatch(asyncActions.createCurrentMessageActionAsync(payload));
     };
 
+    const deleteMessage = (id: string) => {
+        dispatch(asyncActions.deleteCurrentMessageActionAsync({ id }));
+    };
+
     return {
-        currentMessage,
+        currentMessage: text,
         setCurrentMessage,
         sendMessage,
+        deleteMessage,
     };
 };

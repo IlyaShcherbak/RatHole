@@ -30,6 +30,7 @@ export const Chat: FC<PropTypes> = ({ currentUser, messages, isChatInitialised, 
                     {
                         isChatInitialised ? messages.map((message) => (
                             <Message
+                                id = { message._id }
                                 isEdited = { message.createdAt !== message.updatedAt }
                                 isOwnMessage = { message.username === currentUser.username }
                                 key = { message._id }

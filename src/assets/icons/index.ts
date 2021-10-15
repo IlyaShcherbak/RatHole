@@ -4,10 +4,14 @@ import {
     faCheck,
     faCog,
     faKeyboard,
+    faTrash,
+    faEdit,
 } from '@fortawesome/free-solid-svg-icons';
 
 export const initIconsLibrary = () => library.add(
     faCheck,
     faCog,
     faKeyboard,
+    faTrash,
+    faEdit,
 );

@@ -7,7 +7,9 @@ import { CurrentMessageState } from './types';
 // Reducers
 import * as reducers from './reducers';
 
-const initialState: CurrentMessageState = '';
+const initialState: CurrentMessageState = {
+    text: '',
+};
 
 export const currentMessagesSlice = createSlice({
     name: 'currentMessage',

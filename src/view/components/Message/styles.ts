@@ -21,6 +21,12 @@ export const MessageBoxContainer = styled.div`
 
 export const MessageBoxUsername = styled.div`
     margin: 2px 20px;
+
+    .sender & {
+        display: flex;
+        justify-content: flex-end;
+        align-items: flex-end;
+    }
 `;
 
 export const MessageContent = styled.div`
@@ -83,7 +89,7 @@ export const MessageContent = styled.div`
 
 export const MessageText = styled.p`
     padding: 0;
-    margin: 0;
+    margin: 0 0 10px;
 `;
 
 export const MessageTime = styled.div`
