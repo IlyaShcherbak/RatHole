@@ -1,6 +1,5 @@
 // Core
 import React, { FC } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 // Redux
 import { useCurrentMessage } from '../../../bus/currentMessage';
@@ -10,6 +9,9 @@ import { User } from '../../../bus/user/types';
 
 // Styles
 import { UserInputContainer, StyledButton } from './styles';
+
+// Font Awesome
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 // MUI
 import TextField from '@mui/material/TextField';

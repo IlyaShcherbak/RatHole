@@ -1,7 +1,7 @@
 // Core
 import React, { FC } from 'react';
 
-// Dialog
+// Mui Dialog
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogActions from '@mui/material/DialogActions';

@@ -1,7 +1,12 @@
 // Core
 import React, { FC, useState } from 'react';
 import moment from 'moment';
+
+// Font Awesome
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
+// Components
+import { PromptDialog } from '../PromptDialog';
 
 // MUI
 import { IconButton } from '@mui/material';
@@ -11,7 +16,6 @@ import * as S from './styles';
 
 // Bus
 import { useCurrentMessage } from '../../../bus/currentMessage';
-import { PromptDialog } from '../PromptDialog';
 
 type PropTypes = {
     message: string
@@ -41,15 +45,6 @@ export const Message: FC<PropTypes> = ({ message, time, userName, isEdited, isOw
                     {
                         isOwnMessage && (
                             <>
-                                {/* <IconButton
-                                    color = 'warning'
-                                    size = 'small'
-                                    sx = {{ marginRight: 1 }}>
-                                    <FontAwesomeIcon
-                                        icon = 'edit'
-                                        size = 'xs'
-                                    />
-                                </IconButton> */}
                                 <IconButton
                                     color = 'warning'
                                     size = 'small'

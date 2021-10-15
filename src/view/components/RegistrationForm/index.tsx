@@ -1,17 +1,17 @@
 // Core
 import React, { FC } from 'react';
 
-// Styles
-import { CustomForm, StyledTextField, Header, StyledButton } from './styles';
-
-// Utils
-import { getRandomString } from '../../../tools/utils';
+// Redux
+import { useUser } from '../../../bus/user';
 
 // Hooks
 import { useForm } from '../../../tools/hooks';
 
-// Redux
-import { useUser } from '../../../bus/user';
+// Utils
+import { getRandomString } from '../../../tools/utils';
+
+// Styles
+import { CustomForm, StyledTextField, Header, StyledButton } from './styles';
 
 type PropTypes = {}
 

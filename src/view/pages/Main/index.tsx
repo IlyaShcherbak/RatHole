@@ -1,12 +1,12 @@
 // Core
 import React, { FC, useState } from 'react';
 
-// Components
-import { ErrorBoundary, Header, Chat, KeyBoard } from '../../components';
-
 // Redux
 import { useUser } from '../../../bus/user';
 import { useMessages } from '../../../bus/messages';
+
+// Components
+import { ErrorBoundary, Header, Chat, KeyBoard } from '../../components';
 
 // Styles
 import { PageContainer, Container } from './styles';
