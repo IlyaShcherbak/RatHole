@@ -5,11 +5,15 @@ import React, { FC } from 'react';
 import { ErrorBoundary, RegistrationForm } from '../../components';
 
 // Styles
-import { Container } from './styles';
+import { Container, Header } from './styles';
 
 export const Register: FC = () => {
     return (
         <Container>
+            <Header
+                align = 'center'
+                variant = 'h1'> Welcome to the RAT Hole!
+            </Header>
             <RegistrationForm />
         </Container>
     );

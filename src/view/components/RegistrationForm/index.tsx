@@ -2,12 +2,7 @@
 import React, { FC } from 'react';
 
 // Styles
-import { CustomForm, StyledTextField } from './styles';
-
-//Material Ui
-import Stack from '@mui/material/Stack';
-import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
+import { CustomForm, StyledTextField, Header, StyledButton } from './styles';
 
 // Utils
 import { getRandomString } from '../../../tools/utils';
@@ -40,29 +35,24 @@ export const RegistrationForm: FC<PropTypes> = () => {
 
     return (
         <CustomForm>
-            <Stack
-                direction = 'column'
-                spacing = { 1 }>
-                <Typography
-                    gutterBottom
-                    color = 'white'
-                    variant = 'body1'>
-                    Enter your ratname:
-                </Typography>
-                <StyledTextField
-                    id = 'filled-basic'
-                    name = 'username'
-                    value = { registrationState.username }
-                    variant = 'outlined'
-                    onChange = { setRegistrationState }
-                />
-                <Button
-                    color = 'error'
-                    variant = 'outlined'
-                    onClick = { onRegistrationClick }>
-                    DROP INTO HOLE
-                </Button>
-            </Stack>
+            <Header variant = 'h5'>
+                Enter your ratname:
+            </Header>
+            <StyledTextField
+                fullWidth
+                id = 'filled-basic'
+                name = 'username'
+                value = { registrationState.username }
+                variant = 'outlined'
+                onChange = { setRegistrationState }
+            />
+            <StyledButton
+                className = 'register-btn'
+                color = 'warning'
+                variant = 'outlined'
+                onClick = { onRegistrationClick }>
+                DROP INTO HOLE
+            </StyledButton>
         </CustomForm>
 
     );

@@ -11,8 +11,10 @@ export const defaultTheme = {
         error:     'red',
     },
     app: {
-        primary:   '#006d77',
-        secondary: '#83c5be',
+        primary:     '#000000',
+        secondary:   '#9b5500',
+        containerBg: 'rgba(0,0,0,0.5)',
+        headerColor: '#ED6C02',
     },
     first: {
         primary:        '#5f00a8',

@@ -2,13 +2,12 @@
 import styled from 'styled-components';
 
 // Material UI
-import { Button, Paper } from '@material-ui/core';
+import { Paper } from '@material-ui/core';
 
 export const Container = styled.section`
     display: flex;
     align-items: center;
     justify-content: center;
-    grid-column: 2/3;
 `;
 
 export const ChatBox = styled(Paper)({
