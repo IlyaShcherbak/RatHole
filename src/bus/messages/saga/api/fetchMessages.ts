@@ -4,7 +4,7 @@ import { API_URL } from '../../../../init/constants';
 // Types
 import * as types from '../../types';
 
-export const fetchMessages: () => Promise<types.MessagesState> = async () => {
+export const fetchMessages: () => Promise<types.Messages> = async () => {
     const response = await fetch(`${API_URL}/messages`, {
         method:  'GET',
         headers: {
@@ -16,7 +16,5 @@ export const fetchMessages: () => Promise<types.MessagesState> = async () => {
         throw new Error('Message fetch failed');
     }
 
-    const result = await response.json() as types.MessagesState;
-
-    return result;
+    return await response.json() as types.Messages;
 };

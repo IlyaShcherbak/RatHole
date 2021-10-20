@@ -2,7 +2,6 @@
 import { useDispatch } from 'react-redux';
 import { useEffect } from 'react';
 
-
 // Saga actions
 import * as asyncActions from './saga/actions';
 
@@ -16,9 +15,10 @@ let intervalId: ReturnType<typeof setInterval> | void = void 0;
 
 export const useMessages = () => {
     const dispatch = useDispatch();
-    const selector = useSelector((state) => ({
-        messages:      state.messages,
-        isInitialised: state.togglers.isMessagesInitialised,
+    const { messages, currentMessage, isInitialised } = useSelector((state) => ({
+        messages:       state.messages.messages,
+        currentMessage: state.messages.currentMessage,
+        isInitialised:  state.togglers.isMessagesInitialised,
     }));
 
     const getMessages = () => {
@@ -43,9 +43,10 @@ export const useMessages = () => {
         };
     }, []);
 
-
     return {
-        ...selector,
+        messages,
+        currentMessage,
+        isInitialised,
         getMessages,
     };
 };

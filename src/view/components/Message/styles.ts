@@ -35,7 +35,9 @@ export const MessageContent = styled.div`
     margin-bottom: 10px;
     padding: 15px 10px;
     background-color: #A8DDFD;
-    width: 60%;
+    max-width: 60%;
+    width: fit-content;
+    min-width: 160px;
     text-align: left;
     font: 400 .9em 'Open Sans', sans-serif;
     border: 1px solid #97C6E3;

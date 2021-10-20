@@ -1,8 +1,8 @@
 // Core
 import React, { FC } from 'react';
 
-// Redux
-import { useCurrentMessage } from '../../../bus/currentMessage';
+// Hooks
+import { useCurrentMessage } from '../../../tools/hooks';
 
 // Types
 import { User } from '../../../bus/user/types';
@@ -23,15 +23,19 @@ type PropTypes = {
 }
 
 export const ChatInputForm: FC<PropTypes> = ({ user, toogleKeyboard }) => {
-    const { currentMessage: { text, id }, setCurrentMessage, sendMessage, editMessage } = useCurrentMessage();
-
-    const isEditMode = Boolean(id);
+    const {
+        currentMessage: { text, _id },
+        setCurrentMessage,
+        sendMessage,
+        editMessage,
+        isEditMode,
+    } = useCurrentMessage();
 
     const sendButtonClick = () => {
         const trimmedMessage = text.trim();
         if (trimmedMessage) {
             isEditMode
-                ? editMessage(trimmedMessage, id)
+                ? editMessage(trimmedMessage, _id)
                 : sendMessage(trimmedMessage, user.username);
         }
     };

@@ -15,14 +15,14 @@ import * as API from '../api';
 import { makeRequest } from '../../../../tools/utils';
 
 // Types
-import { MessagesState } from '../../types';
+import { Messages } from '../../types';
 import { RootState } from '../../../../init';
 
-export const messagesFetch = () => makeRequest<MessagesState>({
+export const messagesFetch = () => makeRequest<Messages>({
     fetcher:           API.fetchMessages,
     successSideEffect: function*(newMessages) {
         const {
-            messages,
+            messages: { messages },
             togglers: { isMessagesInitialised },
         }: RootState = yield select((state) => state);
 

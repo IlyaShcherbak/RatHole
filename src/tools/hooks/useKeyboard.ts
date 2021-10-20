@@ -2,8 +2,10 @@
 import { useEffect, useState } from 'react';
 
 // Bus
-import { useCurrentMessage } from '../../bus/currentMessage';
 import { useUser } from '../../bus/user';
+
+// Hooks
+import { useCurrentMessage } from './useCurrentMessage';
 
 export enum SpecialKey {
     Backquote = 'Backquote',
@@ -85,7 +87,13 @@ const noKeyPressed = { key: '', code: '', shiftKey: false };
 
 export const useKeyboard = () => {
     const { user } = useUser();
-    const { currentMessage: { text, id }, setCurrentMessage, sendMessage, editMessage } = useCurrentMessage();
+    const {
+        currentMessage: { text, _id },
+        setCurrentMessage,
+        sendMessage,
+        editMessage,
+        isEditMode,
+    } = useCurrentMessage();
     const [ keyPressed, changeKeyPressed ] = useState<Partial<KeyboardEvent>>(noKeyPressed);
     const [ isShiftPressed, setShiftPressed ] = useState(false);
     const [ isCapslockPressed, setCapslockPressed ] = useState(false);
@@ -126,8 +134,8 @@ export const useKeyboard = () => {
     const handleEnter = () => {
         const trimmedMessage = text.trim();
         if (trimmedMessage) {
-            id
-                ? editMessage(trimmedMessage, id)
+            isEditMode
+                ? editMessage(trimmedMessage, _id)
                 : sendMessage(trimmedMessage, user.username);
         }
         setShiftPressed(false);

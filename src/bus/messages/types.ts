@@ -10,9 +10,21 @@ export type Message = {
     updatedAt:string,
 };
 
-export type Messages = Array<Message>
+export type CurrentMessage = Pick<Message, '_id' | 'text'>;
 
-export type MessagesState = Messages;
+export type Messages = Array<Message>;
+
+export type MessagesState = {
+    messages: Messages,
+    currentMessage: CurrentMessage,
+};
+
+export type CreateCurrentMessagePayload = Pick<Message, 'text' | 'username'>;
+
+export type DeleteCurrentMessagePayload = Pick<Message, '_id'>;
+
+export type EditCurrentMessagePayload = Pick<Message, '_id' | 'text'>;
 
 // Contracts
-export type SetMessagesContract = CaseReducer<MessagesState, PayloadAction<MessagesState>>
+export type SetMessagesContract = CaseReducer<MessagesState, PayloadAction<Messages>>
+export type SetCurrentMessageContract = CaseReducer<MessagesState, PayloadAction<CurrentMessage>>

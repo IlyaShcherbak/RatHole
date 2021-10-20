@@ -6,7 +6,7 @@ import { put } from 'redux-saga/effects';
 import { EditCurrentMessagePayload } from '../../types';
 
 //Actions
-import { currentMessagesActions } from '../../slice';
+import { messagesActions } from '../../slice';
 
 // Api
 import * as API from '../api';
@@ -18,7 +18,7 @@ export function* messageEdit({ payload }: types.EditMessageActionAsync) {
     yield makeRequest<EditCurrentMessagePayload>({
         fetcher:           () => API.editMessage(payload),
         successSideEffect: function*() {
-            yield put(currentMessagesActions.setCurrentMessage({ text: '', id: '' }));
+            yield put(messagesActions.setCurrentMessage({ text: '', _id: '' }));
         },
     });
 }

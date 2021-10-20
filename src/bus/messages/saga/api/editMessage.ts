@@ -6,7 +6,7 @@ import * as types from '../../types';
 
 export const editMessage: (message: types.EditCurrentMessagePayload)
 => Promise<types.EditCurrentMessagePayload> = async (message) => {
-    const response = await fetch(`${API_URL}/messages/${message.id}`, {
+    const response = await fetch(`${API_URL}/messages/${message._id}`, {
         method:  'PUT',
         headers: {
             'Content-Type': 'application/json',
@@ -18,5 +18,5 @@ export const editMessage: (message: types.EditCurrentMessagePayload)
         throw new Error(`Message edit failed with status: ${response.status}`);
     }
 
-    return response.json();
+    return await response.json() as types.EditCurrentMessagePayload;
 };

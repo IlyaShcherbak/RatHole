@@ -7,7 +7,10 @@ import { MessagesState } from './types';
 // Reducers
 import * as reducers from './reducers';
 
-const initialState: MessagesState = [];
+const initialState: MessagesState = {
+    messages:       [],
+    currentMessage: { _id: '', text: '' },
+};
 
 export const messagesSlice = createSlice({
     name: 'messages',

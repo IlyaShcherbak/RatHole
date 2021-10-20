@@ -14,8 +14,8 @@ import { IconButton } from '@mui/material';
 // Styles
 import * as S from './styles';
 
-// Bus
-import { useCurrentMessage } from '../../../bus/currentMessage';
+// Hooks
+import { useCurrentMessage } from '../../../tools/hooks';
 
 type PropTypes = {
     message: string
@@ -49,7 +49,7 @@ export const Message: FC<PropTypes> = ({ message, time, userName, isEdited, isOw
                             <>
                                 <IconButton
                                     color = 'warning'
-                                    disabled = { currentMessage.id === id }
+                                    disabled = { currentMessage._id === id }
                                     size = 'small'
                                     sx = {{ marginRight: 1 }}
                                     onClick = { onEditClick }>
