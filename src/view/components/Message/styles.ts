@@ -33,7 +33,7 @@ export const MessageContent = styled.div`
     position: relative;
     margin-left: 20px;
     margin-bottom: 10px;
-    padding: 15px 10px;
+    padding: 10px 8px;
     background-color: #A8DDFD;
     max-width: 60%;
     width: fit-content;
