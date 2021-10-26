@@ -13,7 +13,14 @@ import * as asyncActions from '../../bus/messages/saga/actions';
 
 export const useCurrentMessage = () => {
     const dispatch = useDispatch();
-    const currentMessage = useSelector((state) => state.messages.currentMessage);
+    // const currentMessage = useSelector((state) => state.messages.currentMessage);
+    // console.log(useSelector((state) => state));
+
+    const { currentMessage, isMessageUpdating } = useSelector(
+        ({ messages, togglers }) => ({ currentMessage:    messages.currentMessage,
+            isMessageUpdating: togglers.isMessageUpdating }),
+    );
+
 
     const setCurrentMessage = (text: string, newId?: string) => {
         const _id = isUndefined(newId) ? currentMessage._id : newId;
@@ -22,7 +29,6 @@ export const useCurrentMessage = () => {
 
     const sendMessage = (text: string, username: string) => {
         dispatch(asyncActions.createCurrentMessageActionAsync({ text, username }));
-        setCurrentMessage('', '');
     };
 
     const editMessage = (text: string, _id = '') => {
@@ -42,5 +48,6 @@ export const useCurrentMessage = () => {
         deleteMessage,
         editMessage,
         isEditMode,
+        isMessageUpdating: isMessageUpdating,
     };
 };

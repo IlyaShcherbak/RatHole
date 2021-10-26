@@ -17,6 +17,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import TextField from '@mui/material/TextField';
 import IconButton from '@mui/material/IconButton';
 
+// Elements
+import { Spinner } from '../../elements';
+
 type PropTypes = {
     user: User,
     toogleKeyboard: () => void
@@ -29,6 +32,7 @@ export const ChatInputForm: FC<PropTypes> = ({ user, toogleKeyboard }) => {
         sendMessage,
         editMessage,
         isEditMode,
+        isMessageUpdating,
     } = useCurrentMessage();
 
     const sendButtonClick = () => {
@@ -41,6 +45,7 @@ export const ChatInputForm: FC<PropTypes> = ({ user, toogleKeyboard }) => {
     };
 
     const clearMessage = () => setCurrentMessage('', '');
+    const buttonText = isEditMode ? 'Edit' : 'Send';
 
     return (
         <form onSubmit = { (event) => event.preventDefault() }>
@@ -70,11 +75,11 @@ export const ChatInputForm: FC<PropTypes> = ({ user, toogleKeyboard }) => {
                 />
                 <StyledButton
                     color = 'warning'
-                    disabled = { !text.trim() }
+                    disabled = { isMessageUpdating || !text.trim() }
                     type = 'submit'
                     variant = 'contained'
                     onClick = { sendButtonClick }>
-                    { isEditMode ? 'Edit' : 'Send' }
+                    {isMessageUpdating ? <Spinner size = '1x'/> : buttonText }
                 </StyledButton>
             </UserInputContainer>
         </form>

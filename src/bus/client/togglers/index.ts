@@ -10,7 +10,7 @@ const initialState = {
     isLoggedIn:            false,
     isMessagesInitialised: false,
     isMessagesFetching:    false,
-    isMessagesCreating:    false,
+    isMessageUpdating:     false,
     isTodosFetching:       false,
     isUserFetching:        false,
     isUserRegister:        false,
