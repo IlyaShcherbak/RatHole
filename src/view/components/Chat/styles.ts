@@ -12,7 +12,7 @@ export const Container = styled.section`
 
 export const ChatBox = styled(Paper)({
     width:          '80vw',
-    height:         '60vh',
+    height:         '55vh',
     maxWidth:       '500px',
     maxHeight:      '700px',
     display:        'flex',

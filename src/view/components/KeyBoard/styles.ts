@@ -6,7 +6,7 @@ export const Container = styled.section`
     max-width: 500px;
     display: grid;
     background-color: gray;
-    margin: 30px 0;
+    margin: 25px 0;
     z-index: 2;
 `;
 
