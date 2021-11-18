@@ -2,11 +2,12 @@
 import styled from 'styled-components';
 
 export const Container = styled.section`
-    width: 80vw;
+    width: 95vw;
     max-width: 500px;
     display: grid;
     background-color: gray;
-    margin: 25px 0;
+    /* margin: 25px 0; */
+    margin-top: 20px;
     z-index: 2;
 `;
 

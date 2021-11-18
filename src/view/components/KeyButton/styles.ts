@@ -8,7 +8,7 @@ import Button from '@mui/material/Button';
 export const StyledButton = styled(Button)((props) => ({
     '&.MuiButton-root': {
         height:        30,
-        minWidth:      16,
+        minWidth:      20,
         fontSize:      10,
         boxShadow:     'none',
         textTransform: 'none',
@@ -19,6 +19,20 @@ export const StyledButton = styled(Button)((props) => ({
         color:           'orange',
         backgroundColor: 'black',
         borderColor:     'orange',
+
+        '@media (min-width: 360px)': {
+            minWidth: 23,
+        },
+
+        '@media (min-width: 375px)': {
+            minWidth: 25,
+            fontSize: 12,
+        },
+
+        '@media (min-width: 425px)': {
+            minWidth: 28,
+            fontSize: 14,
+        },
 
         [ up('sm')(props) ]: {
             minWidth: 31,
@@ -56,3 +70,14 @@ export const StyledButton = styled(Button)((props) => ({
         backgroundColor: 'orange',
     },
 }));
+
+export const ResponseStyledButton = styled(StyledButton)`
+    @media (min-width: 375px) {
+        min-width: 24px;
+        font-size: 12px;
+    }
+    @media (min-width: 425px) {
+        min-width: 28px;
+        font-size: 12px;
+    }
+`;
