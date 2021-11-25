@@ -30,6 +30,7 @@ const Main: FC = () => {
                     currentUser = { user }
                     isChatInitialised = { isInitialised }
                     messages = { messages }
+                    showKeyboard = { showKeyboard }
                     toogleKeyboard = { toogleKeyboard }
                 />
                 {showKeyboard && <KeyBoard user = { user } />}

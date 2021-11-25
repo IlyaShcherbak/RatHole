@@ -19,13 +19,16 @@ type PropTypes = {
     currentUser: User,
     messages: Messages,
     isChatInitialised: boolean,
+    showKeyboard: boolean,
     toogleKeyboard: () => void
 }
 
-export const Chat: FC<PropTypes> = ({ currentUser, messages, isChatInitialised, toogleKeyboard }) => {
+export const Chat: FC<PropTypes> = ({ currentUser, messages, isChatInitialised, toogleKeyboard, showKeyboard }) => {
     return (
         <Container>
-            <ChatBox elevation = { 3 }>
+            <ChatBox
+                className = { showKeyboard ? 'showKeyboard' : 'noKeyboard' }
+                elevation = { 3 }>
                 <MessagesBox>
                     {
                         isChatInitialised ? messages.map((message) => (
